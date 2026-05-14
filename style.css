@@ -1,0 +1,427 @@
+/* ================================
+   Divine Dental - Main CSS
+   Updated color palette
+================================ */
+
+:root {
+    --primary-blue: #489cc7;
+    --primary-blue-dark: #2f7fa8;
+    --soft-blue: #eaf6fb;
+    --very-light-blue: #f5fbfe;
+
+    --white: #ffffff;
+    --dark-text: #24313a;
+    --medium-text: #5f6f78;
+    --light-gray: #eef3f5;
+
+    --terracotta: #d75f2a;
+    --plant-green: #5f7f52;
+
+    --shadow-soft: 0 8px 24px rgba(36, 49, 58, 0.12);
+    --shadow-card: 0 4px 16px rgba(36, 49, 58, 0.10);
+
+    --border-radius: 18px;
+    --max-width: 1100px;
+}
+
+/* ---------- Global Styles ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--very-light-blue);
+    color: var(--dark-text);
+    line-height: 1.6;
+}
+
+/* ---------- Header / Navigation ---------- */
+
+header {
+    background-color: rgba(255, 255, 255, 0.98);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(36, 49, 58, 0.06);
+    border-top: 5px solid var(--dark-text);
+}
+
+.navbar {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.55rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo area */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+}
+
+.logo-img {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+
+    filter: drop-shadow(0 3px 5px rgba(36, 49, 58, 0.25));
+}
+
+/* Navigation links */
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary-blue-dark);
+}
+
+/* ---------- Hero Section ---------- */
+
+.hero {
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 1.5rem;
+    background:
+        linear-gradient(rgba(36, 49, 58, 0.25), rgba(36, 49, 58, 0.35)),
+        url("images/office-wall2.jpg");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 620px;
+    background-color: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(6px);
+    padding: 2.4rem 2rem;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(36, 49, 58, 0.18);
+    border: 2px solid rgba(72, 156, 199, 0.35);
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 4.2vw, 3.3rem);
+    line-height: 1.12;
+    color: var(--dark-text);
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.05rem;
+    color: var(--medium-text);
+    margin-bottom: 1.8rem;
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+    display: inline-block;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-decoration: none;
+    padding: 0.9rem 1.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(72, 156, 199, 0.35);
+}
+
+.button:hover {
+    background-color: var(--primary-blue-dark);
+    transform: translateY(-2px);
+}
+
+/* ---------- General Sections ---------- */
+
+.section {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+}
+
+.section h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--dark-text);
+    text-align: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section h2::after {
+    content: "";
+    display: block;
+    width: 75px;
+    height: 4px;
+    background-color: var(--primary-blue);
+    margin: 0.8rem auto 0;
+    border-radius: 10px;
+}
+
+.section > p {
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+    color: var(--medium-text);
+    font-size: 1.05rem;
+}
+
+/* ---------- About Section ---------- */
+
+#about {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-card);
+    border-top: 6px solid var(--primary-blue);
+}
+
+/* ---------- Services Section ---------- */
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.service-card {
+    background-color: var(--white);
+    padding: 1.7rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    border-top: 5px solid var(--primary-blue);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-soft);
+}
+
+.service-card h3 {
+    color: var(--primary-blue);
+    margin-bottom: 0.8rem;
+    font-size: 1.25rem;
+}
+
+.service-card p {
+    color: var(--medium-text);
+    font-size: 0.98rem;
+}
+
+/* ---------- Team Section ---------- */
+
+.team-section {
+    background-color: var(--soft-blue);
+    max-width: 100%;
+}
+
+.team-section h2,
+.team-section > p,
+.team-grid {
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0 1.5rem;
+}
+
+.team-card {
+    background-color: var(--white);
+    padding: 1.8rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    border-top: 5px solid var(--primary-blue);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-soft);
+}
+
+.team-card h3 {
+    color: var(--primary-blue);
+    margin-bottom: 0.3rem;
+    font-size: 1.25rem;
+}
+
+.role {
+    color: var(--terracotta);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+
+.team-card p {
+    color: var(--medium-text);
+}
+
+/* ---------- Contact Section ---------- */
+
+.contact-section {
+    text-align: center;
+}
+
+.contact-info {
+    max-width: 700px;
+    margin: 2rem auto 0;
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    border-top: 6px solid var(--primary-blue);
+    text-align: left;
+}
+
+.contact-info p {
+    margin-bottom: 1rem;
+    color: var(--dark-text);
+}
+
+.contact-info p:last-child {
+    margin-bottom: 0;
+}
+
+.contact-info strong {
+    color: var(--primary-blue);
+}
+
+.contact-info a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.contact-info a:hover {
+    color: var(--primary-blue-dark);
+    text-decoration: underline;
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* ---------- Responsive Design ---------- */
+
+@media (max-width: 900px) {
+    .services-grid,
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .logo {
+        font-size: 1.7rem;
+    }
+
+    .logo-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        min-height: 70vh;
+        padding: 4rem 1rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        padding: 2rem 1.3rem;
+        background-color: rgba(255, 255, 255, 0.82);
+    }
+
+    .section {
+        padding: 4rem 1rem;
+    }
+
+    .services-grid,
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .team-grid {
+        padding: 0 1rem;
+    }
+
+    .contact-info {
+        padding: 1.5rem;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .logo-img {
+        width: 46px;
+        height: 46px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links a {
+        font-size: 1rem;
+    }
+}
