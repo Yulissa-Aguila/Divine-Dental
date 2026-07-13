@@ -14,6 +14,39 @@
 
     <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Schema.org JSON-LD: le dice a Google explícitamente que esto es una clínica dental,
+         con su dirección, teléfono y horario, en un formato que puede leer directamente -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Dentist",
+        "name": "Divine Dental",
+        "image": "https://www.divinedentalnj.com/images/logo.png",
+        "telephone": "+1-201-345-8881",
+        "email": "hello@divinedentalnj.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "485 Washington Avenue",
+            "addressLocality": "Bergenfield",
+            "addressRegion": "NJ",
+            "postalCode": "07621",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 40.9127563,
+            "longitude": -73.9966989
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            "opens": "09:00",
+            "closes": "18:00"
+        },
+        "url": "https://www.divinedentalnj.com"
+    }
+    </script>
 </head>
 <body>
     <!-- Skip link: helps keyboard/screen-reader users jump straight to content -->
@@ -26,26 +59,40 @@
                 <span>Divine Dental</span>
             </div>
 
-            <!-- Hamburger button: only visible on small screens (controlled in CSS) -->
-            <button
-                class="menu-toggle"
-                id="menuToggle"
-                aria-label="Open menu"
-                aria-expanded="false"
-                aria-controls="navLinks"
-            >
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
+            <div class="nav-right">
+                <!-- Toggle de modo oscuro: guarda la preferencia en localStorage -->
+                <button
+                    class="theme-toggle"
+                    id="themeToggle"
+                    aria-label="Switch to dark mode"
+                    aria-pressed="false"
+                >
+                    <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                </button>
 
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#team">Our Team</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+                <!-- Hamburger button: only visible on small screens (controlled in CSS) -->
+                <button
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open menu"
+                    aria-expanded="false"
+                    aria-controls="navLinks"
+                >
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#team">Our Team</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -121,6 +168,55 @@
             </div>
         </section>
 
+        <!-- NOTA: reemplaza estas rutas de imagen por fotos reales del consultorio -->
+        <section id="gallery" class="section gallery-section">
+            <h2>Our Office</h2>
+            <p>
+                Take a look at our comfortable, welcoming space.
+            </p>
+            <div class="gallery-grid">
+                <button class="gallery-item" data-full="images/gallery-1.jpg" aria-label="View larger image of the waiting room">
+                    <img src="images/gallery-1.jpg" alt="Divine Dental waiting room" loading="lazy">
+                </button>
+                <button class="gallery-item" data-full="images/gallery-2.jpg" aria-label="View larger image of a treatment room">
+                    <img src="images/gallery-2.jpg" alt="Divine Dental treatment room" loading="lazy">
+                </button>
+                <button class="gallery-item" data-full="images/gallery-3.jpg" aria-label="View larger image of the front desk">
+                    <img src="images/gallery-3.jpg" alt="Divine Dental front desk" loading="lazy">
+                </button>
+                <button class="gallery-item" data-full="images/gallery-4.jpg" aria-label="View larger image of the exterior">
+                    <img src="images/gallery-4.jpg" alt="Divine Dental office exterior" loading="lazy">
+                </button>
+            </div>
+        </section>
+
+        <!-- NOTA: estos testimonios son texto de ejemplo (placeholder).
+             Reemplázalos por reseñas reales de pacientes, con su permiso, antes de publicar. -->
+        <section id="testimonials" class="section testimonials-section">
+            <h2>What Our Patients Say</h2>
+            <div class="testimonial-carousel">
+                <button class="carousel-btn prev" aria-label="Previous testimonial">&#8249;</button>
+
+                <div class="testimonial-track" id="testimonialTrack">
+                    <blockquote class="testimonial-slide">
+                        <p>"[Placeholder review — replace with a real patient testimonial before publishing.]"</p>
+                        <footer>&mdash; Example Patient</footer>
+                    </blockquote>
+                    <blockquote class="testimonial-slide">
+                        <p>"[Placeholder review — replace with a real patient testimonial before publishing.]"</p>
+                        <footer>&mdash; Example Patient</footer>
+                    </blockquote>
+                    <blockquote class="testimonial-slide">
+                        <p>"[Placeholder review — replace with a real patient testimonial before publishing.]"</p>
+                        <footer>&mdash; Example Patient</footer>
+                    </blockquote>
+                </div>
+
+                <button class="carousel-btn next" aria-label="Next testimonial">&#8250;</button>
+            </div>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </section>
+
         <section id="team" class="section team-section">
             <h2>Meet Our Team</h2>
             <p>
@@ -170,6 +266,60 @@
             </div>
         </section>
 
+        <section id="faq" class="section faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1" id="faq-toggle-1">
+                        <span>Do you accept my dental insurance?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-toggle-1">
+                        <p>
+                            We work with most major dental insurance plans. Call our office with your insurance details and we'll confirm your coverage before your visit.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2" id="faq-toggle-2">
+                        <span>What should I expect at my first visit?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-toggle-2">
+                        <p>
+                            Your first visit includes a full exam, a review of your dental and medical history, and a conversation about any concerns you have. Please arrive 10-15 minutes early to complete any paperwork.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3" id="faq-toggle-3">
+                        <span>What do I do in a dental emergency?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-toggle-3">
+                        <p>
+                            Call our office right away at (201) 345-8881. We do our best to see emergency cases, such as severe pain or a knocked-out tooth, the same day.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4" id="faq-toggle-4">
+                        <span>What is your cancellation policy?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-toggle-4">
+                        <p>
+                            We ask that you give us at least 24 hours' notice if you need to reschedule or cancel, so we can offer that time to another patient.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="contact" class="section contact-section">
             <h2>Contact Us</h2>
             <p>
@@ -181,6 +331,15 @@
                 <p><strong>Email:</strong> <a href="mailto:hello@divinedentalnj.com">hello@divinedentalnj.com</a></p>
                 <p><strong>Address:</strong> 485 Washington Avenue, Bergenfield, NJ 07621</p>
                 <p><strong>Office Hours:</strong> Monday - Saturday, 9:00 AM - 6:00 PM</p>
+            </div>
+
+            <div class="map-embed">
+                <iframe
+                    src="https://www.google.com/maps?q=Divine+Dental,+485+Washington+Avenue,+Bergenfield,+NJ+07621&output=embed"
+                    title="Map showing the location of Divine Dental"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
         </section>
     </main>
