@@ -3,17 +3,43 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Divine Dental</title>
+
+    <title>Divine Dental | Family Dental Care in Bergenfield, NJ</title>
+    <meta name="description" content="Divine Dental provides gentle, professional dental care for the whole family in Bergenfield, NJ. Cleanings, exams, fillings, root canals, crowns, and more.">
+
+    <!-- Open Graph tags: how the page looks when shared on social media / WhatsApp -->
+    <meta property="og:title" content="Divine Dental">
+    <meta property="og:description" content="Gentle, professional dental care for the whole family in Bergenfield, NJ.">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <!-- Skip link: helps keyboard/screen-reader users jump straight to content -->
+    <a href="#home" class="skip-link">Skip to content</a>
+
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="images/logo.png" alt="Divine Dental logo" class="logo-img">
+                <img src="images/logo.png" alt="Divine Dental logo" class="logo-img" width="54" height="54">
                 <span>Divine Dental</span>
             </div>
-            <ul class="nav-links">
+
+            <!-- Hamburger button: only visible on small screens (controlled in CSS) -->
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="navLinks"
+            >
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
@@ -162,5 +188,7 @@
     <footer>
         <p>&copy; 2026 Divine Dental. All rights reserved.</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
