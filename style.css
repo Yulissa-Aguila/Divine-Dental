@@ -9,7 +9,7 @@
     --primary-blue: #489cc7;
     --primary-blue-dark: #2f7fa8;
     --soft-blue: #eaf6fb;
-    --very-light-blue: #faf6f0;
+    --very-light-blue: #faf6f0; /* antes era un azul frio, ahora un crema calido que combina con el ladrillo del hero */
 
     --white: #ffffff;
     --dark-text: #24313a;
@@ -25,6 +25,34 @@
 
     --border-radius: 18px;
     --max-width: 1100px;
+
+    /* Estos 3 tokens NO cambian de significado en modo oscuro (a diferencia de
+       --white y --dark-text, que sí se invierten). El header, la tarjeta del
+       hero y el footer necesitan sus propios "modos" independientes. */
+    --header-bg: rgba(255, 255, 255, 0.98);
+    --hero-card-bg: rgba(255, 255, 255, 0.78);
+    --footer-bg: #24313a;
+}
+
+/* ---------- Modo oscuro ----------
+   Truco clave: como casi todo el sitio ya usa var(--white) para fondos de
+   tarjetas y var(--dark-text) para texto, con solo invertir esos dos tokens
+   (más los 3 independientes de arriba) el sitio entero cambia de tema sin
+   tocar ninguna otra regla. */
+[data-theme="dark"] {
+    --very-light-blue: #12181d;
+    --white: #1c242b;
+    --dark-text: #f1efe8;
+    --medium-text: #b6c0c6;
+    --light-gray: #2a333a;
+    --soft-blue: #1c2a33;
+
+    --header-bg: rgba(18, 24, 29, 0.97);
+    --hero-card-bg: rgba(18, 24, 29, 0.82);
+    --footer-bg: #05080a;
+
+    --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* ---------- Skip link (accesibilidad) ---------- */
@@ -43,6 +71,7 @@
     transition: top 0.2s ease;
 }
 
+/* Cuando el link recibe foco (Tab), aparece visible en la esquina */
 .skip-link:focus {
     top: 0.75rem;
 }
@@ -64,12 +93,13 @@ body {
     background-color: var(--very-light-blue);
     color: var(--dark-text);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ---------- Header / Navigation ---------- */
 
 header {
-    background-color: rgba(255, 255, 255, 0.98);
+    background-color: var(--header-bg);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -85,6 +115,8 @@ header {
     justify-content: space-between;
     align-items: center;
 }
+
+/* Logo area */
 
 .logo {
     display: flex;
@@ -110,17 +142,25 @@ header {
     filter: drop-shadow(0 3px 5px rgba(36, 49, 58, 0.25));
 }
 
+/* Navigation links */
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 1.5rem;
+    gap: 1.15rem;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--primary-blue);
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     transition: color 0.3s ease;
 }
 
@@ -128,12 +168,14 @@ header {
     color: var(--primary-blue-dark);
 }
 
+/* Estado de foco visible al navegar con teclado (Tab) */
 .nav-links a:focus-visible {
     outline: 3px solid var(--primary-blue-dark);
     outline-offset: 4px;
     border-radius: 4px;
 }
 
+/* Link de la sección que está actualmente visible en pantalla */
 .nav-links a.active-link {
     color: var(--primary-blue-dark);
     border-bottom: 3px solid var(--primary-blue-dark);
@@ -142,7 +184,7 @@ header {
 /* ---------- Botón hamburguesa ---------- */
 
 .menu-toggle {
-    display: none;
+    display: none; /* oculto en desktop, se muestra en la media query móvil */
     flex-direction: column;
     justify-content: space-between;
     width: 32px;
@@ -162,6 +204,8 @@ header {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* Cuando el botón tiene la clase "active", animamos las 3 barras
+   para que formen una X en vez de una hamburguesa */
 .menu-toggle.active .bar:nth-child(1) {
     transform: translateY(10.5px) rotate(45deg);
 }
@@ -177,6 +221,49 @@ header {
 .menu-toggle:focus-visible {
     outline: 3px solid var(--primary-blue-dark);
     outline-offset: 4px;
+}
+
+/* ---------- Interruptor de modo oscuro ---------- */
+
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.toggle-track {
+    display: block;
+    width: 44px;
+    height: 24px;
+    background-color: var(--light-gray);
+    border: 1px solid var(--medium-text);
+    border-radius: 999px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--primary-blue);
+    border-radius: 50%;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Cuando el botón está en estado "presionado" (modo oscuro activo),
+   el thumb se desliza a la derecha y cambia a terracota */
+.theme-toggle[aria-pressed="true"] .toggle-thumb {
+    transform: translateX(20px);
+    background-color: var(--terracotta);
+}
+
+.theme-toggle:focus-visible .toggle-track {
+    outline: 3px solid var(--primary-blue-dark);
+    outline-offset: 3px;
 }
 
 /* ---------- Hero Section ---------- */
@@ -197,7 +284,7 @@ header {
 
 .hero-content {
     max-width: 620px;
-    background-color: rgba(255, 255, 255, 0.78);
+    background-color: var(--hero-card-bg);
     backdrop-filter: blur(6px);
     padding: 2.4rem 2rem;
     border-radius: 22px;
@@ -322,6 +409,8 @@ header {
     font-size: 1.4rem;
 }
 
+/* La primera letra de cada servicio se destaca en terracota:
+   un detalle tipográfico en vez de otro ícono generico */
 .service-card h3::first-letter {
     color: var(--terracotta);
     font-size: 1.25em;
@@ -331,6 +420,183 @@ header {
     max-width: 620px;
     color: var(--medium-text);
     font-size: 0.98rem;
+}
+
+/* ---------- Gallery Section ---------- */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.gallery-item {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover,
+.gallery-item:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft);
+    outline: none;
+}
+
+.gallery-item:focus-visible {
+    outline: 3px solid var(--primary-blue-dark);
+    outline-offset: 3px;
+}
+
+.gallery-item img {
+    display: block;
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+/* El lightbox vive fuera del flujo normal, oculto hasta que JS le agrega .open */
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(20, 26, 31, 0.88);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.lightbox.open {
+    display: flex;
+}
+
+.lightbox img {
+    max-width: min(90vw, 900px);
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.lightbox-close:focus-visible {
+    outline: 3px solid var(--white);
+    outline-offset: 2px;
+}
+
+/* ---------- Testimonials Section ---------- */
+
+.testimonials-section {
+    text-align: center;
+}
+
+.testimonial-carousel {
+    max-width: 700px;
+    margin: 2rem auto 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.testimonial-track {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    min-height: 160px;
+}
+
+.testimonial-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    padding: 1.75rem;
+}
+
+.testimonial-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    position: relative;
+}
+
+.testimonial-slide p {
+    font-style: italic;
+    color: var(--dark-text);
+    margin-bottom: 0.75rem;
+}
+
+.testimonial-slide footer {
+    color: var(--terracotta);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.carousel-btn {
+    background-color: var(--white);
+    border: 1px solid var(--light-gray);
+    color: var(--primary-blue-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+
+.carousel-btn:hover {
+    background-color: var(--soft-blue);
+}
+
+.carousel-btn:focus-visible {
+    outline: 3px solid var(--primary-blue-dark);
+    outline-offset: 2px;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.carousel-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--light-gray);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.carousel-dot.active {
+    background-color: var(--terracotta);
 }
 
 /* ---------- Team Section ---------- */
@@ -387,6 +653,85 @@ header {
     color: var(--medium-text);
 }
 
+/* ---------- FAQ Section ---------- */
+
+.faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 1.25rem 0.25rem;
+    cursor: pointer;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--dark-text);
+}
+
+.faq-question:focus-visible {
+    outline: 3px solid var(--primary-blue-dark);
+    outline-offset: 2px;
+}
+
+/* El "+" gira 45 grados y se convierte visualmente en una "x" cuando está abierto */
+.faq-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    position: relative;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+    content: "";
+    position: absolute;
+    background-color: var(--terracotta);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.faq-icon::before {
+    width: 14px;
+    height: 2px;
+}
+
+.faq-icon::after {
+    width: 2px;
+    height: 14px;
+    transition: transform 0.25s ease;
+}
+
+.faq-question[aria-expanded="true"] .faq-icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity: 0;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-answer p {
+    padding: 0 0.25rem 1.25rem;
+    color: var(--medium-text);
+    max-width: 640px;
+}
+
 /* ---------- Contact Section ---------- */
 
 .contact-section {
@@ -428,10 +773,27 @@ header {
     text-decoration: underline;
 }
 
+/* Wrapper con proporción fija para que el iframe del mapa sea responsivo
+   (los iframes no respetan max-width/aspect-ratio por si solos) */
+.map-embed {
+    max-width: 700px;
+    margin: 1.5rem auto 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    aspect-ratio: 16 / 9;
+}
+
+.map-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
 /* ---------- Footer ---------- */
 
 footer {
-    background-color: var(--dark-text);
+    background-color: var(--footer-bg);
     color: var(--white);
     text-align: center;
     padding: 1.5rem;
@@ -442,6 +804,10 @@ footer {
 
 @media (max-width: 900px) {
     .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -459,10 +825,13 @@ footer {
         height: 50px;
     }
 
+    /* Mostramos el botón hamburguesa solo en móvil/tablet */
     .menu-toggle {
         display: flex;
     }
 
+    /* El menú se oculta por default y se convierte en un panel
+       desplegable debajo del navbar */
     .nav-links {
         position: absolute;
         top: 100%;
@@ -480,7 +849,7 @@ footer {
     }
 
     .nav-links.open {
-        max-height: 320px;
+        max-height: 320px; /* suficiente para mostrar los 5 links */
     }
 
     .nav-links li {
@@ -503,7 +872,7 @@ footer {
     .hero-content {
         max-width: 100%;
         padding: 2rem 1.3rem;
-        background-color: rgba(255, 255, 255, 0.82);
+        background-color: var(--hero-card-bg);
     }
 
     .section {
@@ -512,6 +881,25 @@ footer {
 
     .team-grid {
         grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+    }
+
+    .gallery-item img {
+        height: 110px;
+    }
+
+    .testimonial-carousel {
+        gap: 0.5rem;
+    }
+
+    .carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
     }
 
     .team-grid {
@@ -538,5 +926,49 @@ footer {
 
     .nav-links a {
         font-size: 1rem;
+    }
+}
+
+/* ---------- Estilos de impresión ---------- */
+/* Si alguien imprime la página (por ejemplo, la sección de contacto/horarios),
+   quitamos todo lo que no aporta en papel: nav, hero, botones, galería,
+   carrusel y el toggle de tema. Forzamos texto negro sobre blanco
+   sin importar si el modo oscuro estaba activo en pantalla. */
+@media print {
+    header,
+    .hero,
+    .button,
+    .gallery-section,
+    .testimonials-section,
+    .lightbox,
+    footer {
+        display: none;
+    }
+
+    body {
+        background: #fff;
+        color: #000;
+    }
+
+    .section {
+        padding: 1rem 0;
+        max-width: 100%;
+    }
+
+    .contact-info,
+    #about,
+    .service-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .map-embed {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    a {
+        color: #000;
+        text-decoration: underline;
     }
 }
