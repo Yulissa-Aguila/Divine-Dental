@@ -65,3 +65,133 @@ const sectionObserver = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 sections.forEach((section) => sectionObserver.observe(section));
+
+// ---------- 3. Modo oscuro con localStorage ----------
+const themeToggle = document.getElementById('themeToggle');
+
+// Función que aplica el tema y actualiza el botón para que sea accesible
+function applyTheme(isDark) {
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    themeToggle.setAttribute('aria-pressed', isDark);
+    themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+}
+
+// Al cargar la página: usamos la preferencia guardada, o si no existe,
+// respetamos la preferencia de modo oscuro del sistema operativo
+const savedTheme = localStorage.getItem('divine-dental-theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyTheme(savedTheme ? savedTheme === 'dark' : prefersDark);
+
+themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    applyTheme(!isDark);
+    // Guardamos la preferencia para que se recuerde en la próxima visita
+    localStorage.setItem('divine-dental-theme', !isDark ? 'dark' : 'light');
+});
+
+// ---------- 4. Acordeón de FAQ ----------
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach((question) => {
+    question.addEventListener('click', () => {
+        const answer = document.getElementById(question.getAttribute('aria-controls'));
+        const isOpen = question.getAttribute('aria-expanded') === 'true';
+
+        // Cerramos cualquier otra pregunta abierta (comportamiento de acordeón:
+        // solo una respuesta visible a la vez)
+        faqQuestions.forEach((otherQuestion) => {
+            if (otherQuestion !== question) {
+                otherQuestion.setAttribute('aria-expanded', 'false');
+                document.getElementById(otherQuestion.getAttribute('aria-controls')).style.maxHeight = null;
+            }
+        });
+
+        question.setAttribute('aria-expanded', !isOpen);
+        answer.style.maxHeight = isOpen ? null : `${answer.scrollHeight}px`;
+    });
+});
+
+// ---------- 5. Carrusel de testimonios ----------
+const track = document.getElementById('testimonialTrack');
+const slides = track ? Array.from(track.children) : [];
+const dotsContainer = document.getElementById('carouselDots');
+const prevBtn = document.querySelector('.carousel-btn.prev');
+const nextBtn = document.querySelector('.carousel-btn.next');
+let currentSlide = 0;
+
+// Creamos un punto (dot) por cada testimonio, para navegar directo a uno
+slides.forEach((_, index) => {
+    const dot = document.createElement('button');
+    dot.classList.add('carousel-dot');
+    dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+});
+
+const dots = Array.from(dotsContainer.children);
+
+function goToSlide(index) {
+    // Nos aseguramos de que el índice siempre esté dentro del rango,
+    // dando la vuelta al llegar al final (carrusel circular)
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides.forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+}
+
+prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+goToSlide(0);
+
+// ---------- 6. Lightbox de la galería ----------
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+// Creamos el modal del lightbox una sola vez y lo agregamos al final del body
+const lightbox = document.createElement('div');
+lightbox.className = 'lightbox';
+lightbox.innerHTML = `
+    <button class="lightbox-close" aria-label="Close image">&times;</button>
+    <img src="" alt="">
+`;
+document.body.appendChild(lightbox);
+
+const lightboxImg = lightbox.querySelector('img');
+const lightboxClose = lightbox.querySelector('.lightbox-close');
+let lastFocusedElement = null;
+
+function openLightbox(src, alt) {
+    lastFocusedElement = document.activeElement;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.classList.add('open');
+    lightboxClose.focus();
+    document.body.style.overflow = 'hidden'; // evita el scroll de fondo mientras el modal está abierto
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocusedElement) lastFocusedElement.focus();
+}
+
+galleryItems.forEach((item) => {
+    item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        openLightbox(item.getAttribute('data-full'), img.alt);
+    });
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+
+// Cerrar al hacer click en el fondo oscuro (fuera de la imagen)
+lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+});
+
+// Cerrar con la tecla Escape
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('open')) {
+        closeLightbox();
+    }
+});
